@@ -5,7 +5,7 @@
 
 #include "context.h"
 
-void default_framebuffer_size_callback(int vw, int vh) 
+void default_framebuffer_size_callback(GLFWwindow* window, int vw, int vh) 
 {
 	ctx_viewport(0, 0, vw, vh);
 }
@@ -27,4 +27,9 @@ GLFWwindow* create_managed_window(const char* title, int width, int height)
 	glfwSetFramebufferSizeCallback(window, default_framebuffer_size_callback);
 
 	return window;
+}
+
+void destroy_window(GLFWwindow* window)
+{
+	glfwDestroyWindow(window);
 }

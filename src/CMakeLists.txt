@@ -9,6 +9,8 @@ add_executable(solver
 	"application.c"
 	"renderer/window.c"
 	"renderer/context.c"
+	"renderer/buffer.c" 
+	"renderer/shader.c"
 )
 
 target_link_libraries(solver PRIVATE
