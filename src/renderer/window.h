@@ -3,7 +3,14 @@
 
 typedef struct GLFWwindow GLFWwindow;
 
-GLFWwindow* create_managed_window(const char* title, int width, int height);
-void destroy_window(GLFWwindow* window);
+typedef struct Window
+{
+	GLFWwindow* window;
+	void(*on_size_change)(void*, int, int);
+	void* user_data;
+} Window;
+
+int create_managed_window(Window* window, const char* title, int width, int height);
+void destroy_window(Window window);
 
 #endif // WINDOW_H

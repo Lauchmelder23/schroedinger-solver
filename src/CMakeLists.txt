@@ -11,9 +11,11 @@ add_executable(solver
 	"renderer/context.c"
 	"renderer/buffer.c" 
 	"renderer/shader.c"
+	"renderer/camera.c"
 )
 
 target_link_libraries(solver PRIVATE
 	glfw
 	glad
+	cglm
 )

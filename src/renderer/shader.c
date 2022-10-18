@@ -92,3 +92,9 @@ void bind_shader(int shader)
 {
 	glUseProgram(shader);
 }
+
+void set_uniform_mat4(int shader, const char* name, mat4 mat)
+{
+	int location = glGetUniformLocation(shader, name);
+	glUniformMatrix4fv(location, 1, GL_FALSE, (float*)mat);
+}
