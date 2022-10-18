@@ -50,7 +50,7 @@ void set_vertex_layout(VertexArrayObject* vao, VertexAttribute* attributes, size
 
 	size_t stride = 0;
 	for (size_t i = 0; i < count; i++) {
-		stride += attributes[i].size;
+		stride += attributes[i].size * attributes[i].count;
 	}
 
 	size_t offset = 0;
@@ -58,11 +58,16 @@ void set_vertex_layout(VertexArrayObject* vao, VertexAttribute* attributes, size
 		glVertexAttribPointer(i, attributes[i].count, attributes[i].type, GL_FALSE, stride, (const void*)(offset));
 		glEnableVertexAttribArray(i);
 
-		offset += attributes[i].size;
+		offset += attributes[i].size * attributes[i].count;
 	}
 }
 
-void bind_vao(VertexArrayObject vao)
+void bind_vao(VertexArrayObject* vao)
 {
-	glBindVertexArray(vao.vao);
+	glBindVertexArray(vao->vao);
+}
+
+void render_vao(VertexArrayObject* vao)
+{
+	glDrawArrays(GL_TRIANGLES, 0, vao->elements);
 }

@@ -32,7 +32,7 @@ static int set_and_compile_shader(GLuint program, GLuint shader, const char* cod
 	return 0;
 }
 
-int create_shader(const char* vertex_shader_code, const char* fragment_shader_code)
+Shader create_shader(const char* vertex_shader_code, const char* fragment_shader_code)
 {
 	assert(vertex_shader_code && fragment_shader_code);
 
@@ -83,18 +83,24 @@ vertex_failed:
 	return shader;
 }
 
-void destroy_shader(int shader)
+void destroy_shader(Shader shader)
 {
 	glDeleteProgram(shader);
 }
 
-void bind_shader(int shader)
+void bind_shader(Shader shader)
 {
 	glUseProgram(shader);
 }
 
-void set_uniform_mat4(int shader, const char* name, mat4 mat)
+void set_uniform_mat4(Shader shader, const char* name, mat4 mat)
 {
 	int location = glGetUniformLocation(shader, name);
 	glUniformMatrix4fv(location, 1, GL_FALSE, (float*)mat);
+}
+
+void set_uniform_vec3(Shader shader, const char* name, vec3 vec)
+{
+	int location = glGetUniformLocation(shader, name);
+	glUniform3fv(location, 1, vec);
 }

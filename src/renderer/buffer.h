@@ -28,6 +28,7 @@ void attach_element_buffer(VertexArrayObject* vao, const unsigned* data, size_t 
 
 void set_vertex_layout(VertexArrayObject* vao, VertexAttribute* attributes, size_t count);
 
-void bind_vao(VertexArrayObject vao);
+void bind_vao(VertexArrayObject* vao);
+void render_vao(VertexArrayObject* vao);
 
 #endif // BUFFER_H

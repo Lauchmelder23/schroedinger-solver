@@ -23,7 +23,7 @@ void ctx_clear_screen(float r, float g, float b, float a)
 
 void ctx_draw_elements(VertexArrayObject* vao)
 {
-	bind_vao(*vao);
+	bind_vao(vao);
 	glDrawElements(GL_TRIANGLES, vao->elements, GL_UNSIGNED_INT, (void*)0);
 }
 

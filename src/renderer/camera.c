@@ -10,7 +10,7 @@ int create_camera(Camera* camera)
 
 	glm_mat4_identity(camera->view);
 	glm_rotate(camera->view, glm_rad(35.0f), (vec3) { 1.0f, 0.0f, 0.0f });
-	glm_translate(camera->view, (vec3) { 0.0f, -1.0f, -2.0f });
+	glm_translate(camera->view, (vec3) { 0.0f, -1.5f, -3.0f });
 
 	glm_perspective(glm_rad(90.0f), 1.0f, 0.001f, 100.0f, camera->projection);
 

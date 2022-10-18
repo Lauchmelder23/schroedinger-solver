@@ -7,12 +7,18 @@ cmake_minimum_required (VERSION 3.8)
 add_executable(solver
 	"main.c"
 	"application.c"
+	"scene.c"
 	"renderer/window.c"
 	"renderer/context.c"
 	"renderer/buffer.c" 
 	"renderer/shader.c"
 	"renderer/camera.c"
+ "objects/cube.c" "renderer/object.c")
+
+target_include_directories(solver PRIVATE
+	${CMAKE_CURRENT_LIST_DIR}
 )
+
 
 target_link_libraries(solver PRIVATE
 	glfw
