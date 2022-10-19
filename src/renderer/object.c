@@ -2,6 +2,7 @@
 
 #include <cglm/affine.h>
 #include "context.h"
+#include "camera.h"
 
 void init_object(Object* obj)
 {
@@ -25,12 +26,12 @@ void render_object(Object* obj, Camera* camera)
 	vec3 normalized_rot;
 	glm_vec3_normalize_to(obj->rotation, normalized_rot);
 
-	glm_scale(obj->transform, obj->scale);
+	glm_translate(obj->transform, obj->position);
 	glm_rotate(obj->transform, angle, normalized_rot);
 	glm_scale(obj->transform, obj->scale);
 
 	set_uniform_mat4(obj->shader, "model", obj->transform);
-	set_uniform_mat4(obj->shader, "view", camera->view);
+	set_uniform_mat4(obj->shader, "view", get_camera_view(camera));
 	set_uniform_mat4(obj->shader, "projection", camera->projection);
 
 	obj->on_shader_use(obj->child);
@@ -41,4 +42,14 @@ void render_object(Object* obj, Camera* camera)
 void destroy_object(Object obj)
 {
 	obj.on_destroy(obj.child);
+}
+
+void object_set_position(Object* obj, vec3 position)
+{
+	glm_vec3_copy(position, obj->position);
+}
+
+void object_move(Object* obj, vec3 direction)
+{
+	glm_vec3_add(obj->position, direction, obj->position);
 }

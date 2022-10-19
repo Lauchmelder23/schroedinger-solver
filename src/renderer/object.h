@@ -5,7 +5,8 @@
 
 #include "shader.h"
 #include "buffer.h"
-#include "camera.h"
+
+typedef struct Camera Camera;
 
 typedef struct Object
 {
@@ -25,6 +26,9 @@ typedef struct Object
 
 void init_object(Object* obj);
 void destroy_object(Object obj);
+
+void object_set_position(Object* obj, vec3 position);
+void object_move(Object* obj, vec3 direction);
 
 void update_object(Object* obj);
 void render_object(Object* obj, Camera* camera);

@@ -13,7 +13,7 @@ add_executable(solver
 	"renderer/buffer.c" 
 	"renderer/shader.c"
 	"renderer/camera.c"
- "objects/cube.c" "renderer/object.c")
+ "objects/cube.c" "renderer/object.c" "util/dynarray.h" "util/dynarray.c" "scenes/spinning_cubes.h" "scenes/spinning_cubes.c")
 
 target_include_directories(solver PRIVATE
 	${CMAKE_CURRENT_LIST_DIR}

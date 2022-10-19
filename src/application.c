@@ -5,6 +5,7 @@
 
 #include "renderer/context.h"
 #include "objects/cube.h"
+#include "scenes/spinning_cubes.h"
 
 static void on_window_size_change(Application* app, int width, int height)
 {
@@ -35,11 +36,7 @@ int init_application(Application* app, const char* name)
 	app->scenes = (Scene*)malloc(1 * sizeof(Scene));
 	app->active_scene = app->scenes;	// First scene is active scene
 
-	create_scene(app->scenes);
-	Cube* obj = (Cube*)malloc(sizeof(Cube));
-	create_cube(obj);
-
-	scene_add_object(app->active_scene, &obj->object);
+	create_spinning_cubes_scene(&app->window, app->scenes);
 
 	return 0;
 }
@@ -50,6 +47,7 @@ int launch_application(Application* app)
 	{
 		glfwPollEvents();
 
+		update_scene(app->active_scene);
 		render_scene(app->active_scene);
 
 		glfwSwapBuffers(app->window.window);
