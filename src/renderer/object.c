@@ -34,7 +34,8 @@ void render_object(Object* obj, Camera* camera)
 	set_uniform_mat4(obj->shader, "view", get_camera_view(camera));
 	set_uniform_mat4(obj->shader, "projection", camera->projection);
 
-	obj->on_shader_use(obj->child);
+	obj->on_shader_use_obj(obj->child);
+	obj->on_shader_use_scene(obj, obj->scene);
 
 	ctx_draw_elements(obj->vao);
 }

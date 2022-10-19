@@ -19,7 +19,9 @@ typedef struct Object
 	vec3 scale;
 
 	void* child;
-	void(*on_shader_use)(void*);
+	void* scene;
+	void(*on_shader_use_obj)(void*);
+	void(*on_shader_use_scene)(void*, void*);
 	void(*on_update)(void*);
 	void(*on_destroy)(void*);
 } Object;

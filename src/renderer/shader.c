@@ -99,6 +99,12 @@ void set_uniform_mat4(Shader shader, const char* name, mat4 mat)
 	glUniformMatrix4fv(location, 1, GL_FALSE, (float*)mat);
 }
 
+void set_uniform_float(Shader shader, const char* name, float val)
+{
+	int location = glGetUniformLocation(shader, name);
+	glUniform1f(location, val);
+}
+
 void set_uniform_vec3(Shader shader, const char* name, vec3 vec)
 {
 	int location = glGetUniformLocation(shader, name);

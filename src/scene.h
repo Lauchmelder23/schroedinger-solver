@@ -5,10 +5,16 @@
 #include "renderer/object.h"
 #include "util/dynarray.h"
 
+#include "renderer/light/ambient_light.h"
+#include "renderer/light/point_light.h"
+
 typedef struct Scene
 {
 	Camera camera;
 	DynamicArray objects;
+
+	AmbientLight ambient_light;
+	PointLight point_light;
 
 	void* child;
 	void(*on_update)(void*, double);

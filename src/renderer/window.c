@@ -34,7 +34,7 @@ int create_managed_window(Window* window, const char* title, int width, int heig
 	glfwMakeContextCurrent(window->window);
 	ctx_init();
 	ctx_enable(GL_DEPTH_TEST);
-	ctx_front_face(GL_CW);
+	// ctx_front_face(GL_CW);
 
 	glfwSetFramebufferSizeCallback(window->window, default_framebuffer_size_callback);
 	

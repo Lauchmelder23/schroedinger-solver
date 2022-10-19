@@ -8,6 +8,20 @@
 
 #include "objects/cube.h"
 
+static void set_lighting_uniforms(Object* obj, Scene* scene)
+{
+	Shader shader = obj->shader;
+
+	set_uniform_vec3(shader, "ambient_color", scene->ambient_light.color);
+	set_uniform_float(shader, "ambient_intens", scene->ambient_light.intensity);
+
+	set_uniform_vec3(shader, "point_pos", scene->point_light.position);
+	set_uniform_vec3(shader, "point_col", scene->point_light.color);
+	set_uniform_float(shader, "point_intens", scene->point_light.intensity);
+
+	set_uniform_vec3(shader, "cam_pos", scene->camera.object.position);
+}
+
 int create_scene(Scene* scene)
 {
 	assert(scene);
@@ -37,6 +51,9 @@ void destroy_scene(Scene scene)
 void scene_add_object(Scene* scene, Object* object)
 {
 	assert(scene);
+
+	object->scene = scene;
+	object->on_shader_use_scene = set_lighting_uniforms;
 	dynamic_array_push(&scene->objects, (void*)&object);
 }
 

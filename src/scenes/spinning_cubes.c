@@ -19,6 +19,8 @@ typedef struct SpinningCubes
 	bool dragging;
 	double drag_speed;
 	double camera_distance;
+
+	double time;
 } SpinningCubes;
 
 static void init_spinning_cubes_data(SpinningCubes* scene)
@@ -28,6 +30,7 @@ static void init_spinning_cubes_data(SpinningCubes* scene)
 	scene->camera_distance = 6.5f;
 	scene->dragging = false;
 	scene->drag_speed = 0.01f;
+	scene->time = 0.0f;
 }
 
 static void get_arcball_vector(vec3 dest, double width, double height, double x, double y)
@@ -109,6 +112,13 @@ static void mouse_moved_callback(GLFWwindow* window, double xpos, double ypos)
 
 static void on_update(Scene* scene, double frametime)
 {
+	SpinningCubes* data = scene->child;
+	vec3 cam_pos = { 6.0f * sin(2.0f * data->time), 3.5f * cos(data->time), 6.0f * cos(2.0f * data->time)};
+
+	object_set_position(&scene->camera.object, cam_pos);
+	data->time += frametime;
+
+	glm_vec3_copy(scene->camera.object.position, scene->point_light.position);
 }
 
 void create_spinning_cubes_scene(Window* window, Scene* scene)
@@ -135,9 +145,16 @@ void create_spinning_cubes_scene(Window* window, Scene* scene)
 		scene_add_object(scene, &obj->object);
 	}
 
-	vec3 cam_pos = { 0.0f, 4.0f, -3.0 };
+	vec3 cam_pos = { 0.0f, 3.5f, 3.0 };
 	object_set_position(&scene->camera.object, cam_pos);
 	glm_vec3_zero(&scene->camera.look_at);
+
+
+	glm_vec3_one(scene->ambient_light.color);
+	scene->ambient_light.intensity = 0.1f;
+
+	glm_vec3_one(scene->point_light.color);
+	scene->point_light.intensity = 1.0f;
 
 	glfwSetMouseButtonCallback(window->window, mouse_button_callback);
 	glfwSetCursorPosCallback(window->window, mouse_moved_callback);

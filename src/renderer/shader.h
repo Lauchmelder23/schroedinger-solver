@@ -11,6 +11,7 @@ void destroy_shader(Shader shader);
 void bind_shader(Shader shader);
 
 void set_uniform_mat4(Shader shader, const char* name, mat4 mat);
+void set_uniform_float(Shader shader, const char* name, float val);
 void set_uniform_vec3(Shader shader, const char* name, vec3 vec);
 
 #endif // SHADER_H
