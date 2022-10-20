@@ -4,8 +4,7 @@
 #include <errno.h>
 
 #include "renderer/context.h"
-#include "objects/cube.h"
-#include "scenes/spinning_cubes.h"
+#include "scenes/test_scene.h"
 
 static void on_window_size_change(Application* app, int width, int height)
 {
@@ -36,7 +35,7 @@ int init_application(Application* app, const char* name)
 	app->scenes = (Scene*)malloc(1 * sizeof(Scene));
 	app->active_scene = app->scenes;	// First scene is active scene
 
-	if (create_spinning_cubes_scene(&app->window, app->scenes) != 0)
+	if (create_test_scene(&app->window, app->scenes) != 0)
 	{
 		return 1;
 	}
