@@ -36,7 +36,10 @@ int init_application(Application* app, const char* name)
 	app->scenes = (Scene*)malloc(1 * sizeof(Scene));
 	app->active_scene = app->scenes;	// First scene is active scene
 
-	create_spinning_cubes_scene(&app->window, app->scenes);
+	if (create_spinning_cubes_scene(&app->window, app->scenes) != 0)
+	{
+		return 1;
+	}
 
 	return 0;
 }

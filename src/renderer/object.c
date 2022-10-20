@@ -17,10 +17,8 @@ void update_object(Object* obj)
 	obj->on_update(obj->child);
 }
 
-void render_object(Object* obj, Camera* camera)
+void render_object(Object* obj, Shader* shader)
 {
-	bind_shader(obj->shader);
-
 	glm_mat4_identity(obj->transform);
 	float angle = glm_vec3_norm(obj->rotation);
 	vec3 normalized_rot;
@@ -30,12 +28,9 @@ void render_object(Object* obj, Camera* camera)
 	glm_rotate(obj->transform, angle, normalized_rot);
 	glm_scale(obj->transform, obj->scale);
 
-	set_uniform_mat4(obj->shader, "model", obj->transform);
-	set_uniform_mat4(obj->shader, "view", get_camera_view(camera));
-	set_uniform_mat4(obj->shader, "projection", camera->projection);
+	set_uniform_mat4(shader, "model", obj->transform);
 
-	obj->on_shader_use_obj(obj->child);
-	obj->on_shader_use_scene(obj, obj->scene);
+	obj->on_shader_use_obj(obj->child, shader);
 
 	ctx_draw_elements(obj->vao);
 }

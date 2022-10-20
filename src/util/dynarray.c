@@ -36,6 +36,14 @@ void* dynamic_array_get(DynamicArray* array, size_t i)
 	return (void*)((char*)array->data + (i * array->element_size));
 }
 
+void dynamic_array_clear(DynamicArray* array)
+{
+	array->capacity = 5;
+	array->size = 0;
+
+	array->data = realloc(array->data, array->element_size * array->capacity);
+}
+
 void dynamic_array_push(DynamicArray* array, void* element)
 {
 	assert(array->capacity > 0);

@@ -4,7 +4,6 @@
 #include <glad/glad.h>
 
 static VertexArrayObject* vao = NULL;
-static Shader shader = 0;
 static size_t num_cubes = 0;
 
 static int init_cube_object(void)
@@ -78,72 +77,10 @@ static int init_cube_object(void)
 	};
 	set_vertex_layout(vao, attributes, sizeof(attributes) / sizeof(VertexAttribute));
 
-	shader = create_shader(
-		"#version 460 core\n"
-		""
-		"layout (location = 0) in vec3 pos;"
-		"layout (location = 1) in vec3 normal;"
-		""
-		"out vec3 frag_normal;"
-		"out vec3 frag_pos;"
-		""
-		"uniform mat4 model;"
-		"uniform mat4 view;"
-		"uniform mat4 projection;"
-		""
-		"void main() {"
-		"	frag_normal = mat3(transpose(inverse(model))) * normal;"
-		"	frag_pos = vec3(model * vec4(pos, 1.0));"
-		"	gl_Position = projection * view * model * vec4(pos, 1.0);"
-		"}",
-
-		"#version 460 core\n"
-		""
-		"in vec3 frag_pos;"
-		"in vec3 frag_normal;"
-		""
-		"uniform vec3 ambient_color = vec3(1.0, 1.0, 1.0);"
-		"uniform float ambient_intens = 1.0f;"
-		""
-		"uniform vec3 point_pos = vec3(0.0, 0.0, 0.0);"
-		"uniform vec3 point_col = vec3(1.0, 1.0, 1.0);"
-		"uniform float point_intens = 1.0f;"
-		""
-		"uniform vec3 cam_pos = vec3(0.0, 0.0, 0.0);"
-		"float specular_strength = 0.5f;"
-		""
-		"uniform vec3 cube_color;"
-		""
-		"out vec4 FragColor;"
-		""
-		"void main() {"
-		"	vec3 ambient = ambient_intens * ambient_color;"
-		""
-		"	vec3 norm = normalize(frag_normal);"
-		"	vec3 light_dir = normalize(point_pos - frag_pos);"
-		"	float diff = max(dot(norm, light_dir), 0.0);"
-		"	vec3 diffuse = diff * point_col;"
-		""
-		"	vec3 view_dir = normalize(cam_pos - frag_pos);"
-		"	vec3 reflect_dir = reflect(-light_dir, norm);"
-		""
-		"	float spec = pow(max(dot(view_dir, reflect_dir), 0.0), 32);"
-		"	vec3 specular = specular_strength * spec * point_col;  "
-		""
-		"	vec3 result = (ambient + diffuse + specular) * cube_color;"
-		"	FragColor = vec4(result, 1.0);"
-		"}"
-	);
-	if (shader == 0) 
-	{ 
-		fprintf(stderr, "failed to create shader for cube\n");
-		return 1;
-	}
-
 	return 0;
 }
 
-static void on_shader_bind(Cube* cube)
+static void on_shader_bind(Cube* cube, Shader* shader)
 {
 	set_uniform_vec3(shader, "cube_color", cube->color);
 }
@@ -171,7 +108,7 @@ static void on_update(Cube* cube)
 
 int create_cube(Cube* cube)
 {
-	if (vao == NULL || shader == 0)
+	if (vao == NULL)
 	{
 		if (init_cube_object() != 0)
 		{
@@ -187,7 +124,6 @@ int create_cube(Cube* cube)
 	cube->color_mod[2] = 0.005f;
 
 	cube->object.vao = vao;
-	cube->object.shader = shader;
 
 	cube->object.child = cube;
 	cube->object.on_shader_use_obj = on_shader_bind;
@@ -203,9 +139,6 @@ void destroy_cube(Cube* cube)
 
 	if (num_cubes == 0)
 	{
-		destroy_shader(shader);
-		shader = 0;
-
 		destroy_vao(*vao);
 		vao = NULL;
 	}

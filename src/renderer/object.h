@@ -11,7 +11,6 @@ typedef struct Camera Camera;
 typedef struct Object
 {
 	VertexArrayObject* vao;
-	Shader shader;
 
 	mat4 transform;
 	vec3 position;
@@ -20,8 +19,7 @@ typedef struct Object
 
 	void* child;
 	void* scene;
-	void(*on_shader_use_obj)(void*);
-	void(*on_shader_use_scene)(void*, void*);
+	void(*on_shader_use_obj)(void*, void*);
 	void(*on_update)(void*);
 	void(*on_destroy)(void*);
 } Object;
@@ -33,6 +31,6 @@ void object_set_position(Object* obj, vec3 position);
 void object_move(Object* obj, vec3 direction);
 
 void update_object(Object* obj);
-void render_object(Object* obj, Camera* camera);
+void render_object(Object* obj, Shader* shader);
 
 #endif // OBJECT_H

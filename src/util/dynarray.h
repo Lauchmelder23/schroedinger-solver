@@ -18,6 +18,7 @@ DynamicArray create_dynamic_array_from_size(size_t type_size);
 void destroy_dynamic_array(DynamicArray array);
 
 void* dynamic_array_get(DynamicArray* array, size_t i);
+void dynamic_array_clear(DynamicArray* array);
 
 void dynamic_array_push(DynamicArray* array, void* element);
 void dynamic_array_pop(DynamicArray* array);

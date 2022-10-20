@@ -11,21 +11,18 @@
 typedef struct Scene
 {
 	Camera camera;
-	DynamicArray objects;
-
-	AmbientLight ambient_light;
-	PointLight point_light;
 
 	void* child;
 	void(*on_update)(void*, double);
+	void(*on_render)(void*);
 	double last_frame_start;
 } Scene;
 
 int create_scene(Scene* scene);
 void destroy_scene(Scene scene);
 
-void scene_add_object(Scene* scene, Object* object);
 void scene_update_size(Scene* scene, int width, int height);
+void scene_set_camera_uniforms(Scene* scene, Shader* shader);
 
 void update_scene(Scene* scene);
 void render_scene(Scene* scene);
